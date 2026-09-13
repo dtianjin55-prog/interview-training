@@ -1,1 +1,303 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>大学面接対策｜伊勢崎・地域創生 練習アプリ</title>
 
+<style>
+body{
+  font-family:system-ui,"Yu Gothic",sans-serif;
+  margin:0;background:#f4f6f9;color:#222;
+}
+header{
+  background:linear-gradient(135deg,#13315c,#0f7b8a);
+  color:#fff;padding:18px;font-size:1.1rem;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+main{padding:16px}
+.card{
+  background:#fff;padding:16px;border-radius:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  margin-bottom:16px;border-left:6px solid #0f7b8a;
+}
+h2{font-size:1.05rem;margin:0 0 8px}
+label{font-size:.9rem;color:#555}
+textarea{
+  width:100%;min-height:90px;margin-top:6px;
+  padding:8px;border-radius:8px;border:1px solid #ccc;
+  font-family:inherit;font-size:.9rem;
+}
+button{
+  width:100%;padding:12px;border:none;border-radius:8px;
+  background:#0f7b8a;color:#fff;font-size:.95rem;
+  margin-top:10px;
+}
+button.secondary{
+  background:#145c3a;
+}
+#meta{
+  font-size:.85rem;color:#555;margin-bottom:8px;
+}
+#guideBox{
+  margin-top:12px;padding:12px;border-radius:10px;
+  background:#eef7ff;border-left:5px solid #0f7b8a;
+  font-size:.9rem;
+}
+#status{
+  font-size:.85rem;color:#555;margin-bottom:8px;
+}
+</style>
+</head>
+
+<body>
+<header>大学面接対策｜伊勢崎・地域創生 練習アプリ</header>
+<main>
+
+<div class="card">
+  <div id="meta"></div>
+  <h2 id="question">読み込み中…</h2>
+  <p id="deepQuestion" style="color:#555"></p>
+  <p id="status"></p>
+
+  <label for="answerInput">あなたの回答（60〜120秒を想定して書いてみる）</label>
+  <textarea id="answerInput" placeholder="結論→理由・具体例→大学での学び／提案 の順で書いてみる"></textarea>
+
+  <button onclick="showGuide()">回答・評価ガイドを見る</button>
+  <button class="secondary" onclick="next()">次の質問へ</button>
+
+  <div id="guideBox" style="display:none"></div>
+</div>
+
+</main>
+
+<script>
+// ===============================
+// 面接問題データ（面接問題集）
+// ===============================
+const QUESTIONS = [
+  {no:1, field:"地域課題", level:"基礎",
+   q:"伊勢崎市の中心市街地が衰退した主な理由を説明してください。",
+   deep:"挙げた理由の中で、最も影響が大きいものは何ですか。",
+   time:"60秒"},
+  {no:2, field:"地域課題", level:"標準",
+   q:"モータリゼーションは、なぜ地方都市の中心市街地を衰退させるのですか。",
+   deep:"車の利便性を否定せずに中心部へ人を戻す方法はありますか。",
+   time:"90秒"},
+  {no:3, field:"データ活用", level:"基礎",
+   q:"RESASとは何ですか。地域課題の分析にどう使えますか。",
+   deep:"どのようなデータを見て施策の効果を測りますか。",
+   time:"60秒"},
+  {no:4, field:"地域文化", level:"基礎",
+   q:"伊勢崎銘仙の特徴と歴史的な価値を説明してください。",
+   deep:"現代の若者に魅力を伝えるなら、何を強調しますか。",
+   time:"60秒"},
+  {no:5, field:"地域文化", level:"標準",
+   q:"併用絣の技術的な特徴を、専門知識のない人にも分かるように説明してください。",
+   deep:"その技術を商品や体験にどう展開できますか。",
+   time:"90秒"},
+  {no:6, field:"食文化", level:"基礎",
+   q:"日本のルーカレー、インドカレー、タイカレー、欧風カレーの違いを説明してください。",
+   deep:"伊勢崎で提供するなら、どのタイプを選びますか。",
+   time:"60秒"},
+  {no:7, field:"食文化", level:"標準",
+   q:"北インドカレーと南インドカレーの違いを、主食や味の特徴から比較してください。",
+   deep:"違いが生まれた背景をどう考えますか。",
+   time:"90秒"},
+  {no:8, field:"多文化", level:"標準",
+   q:"インドでベジタリアンが多い背景と、飲食店運営上の配慮を説明してください。",
+   deep:"日本人客とベジタリアン客を両立させるメニュー設計は。",
+   time:"90秒"},
+  {no:9, field:"多文化", level:"基礎",
+   q:"伊勢崎市に外国人住民が多いことのメリットを挙げてください。",
+   deep:"地域経済への効果を具体化してください。",
+   time:"60秒"},
+  {no:10, field:"多文化", level:"標準",
+   q:"多文化共生を進める際の課題を挙げ、解決策を一つ提案してください。",
+   deep:"その施策の費用や担い手はどうしますか。",
+   time:"90秒"},
+  {no:11, field:"多文化", level:"応用",
+   q:"多文化共生と治安への不安感を、偏見を生まないように論じてください。",
+   deep:"住民間の信頼を測る指標は何ですか。",
+   time:"120秒"},
+  {no:12, field:"企画", level:"基礎",
+   q:"レトロモダンとグローカルを、それぞれ説明してください。",
+   deep:"両方を伊勢崎のまちづくりにどう取り入れますか。",
+   time:"60秒"},
+  {no:13, field:"経営", level:"標準",
+   q:"ブランディングとマーケティングの違いを説明してください。",
+   deep:"新店舗の認知を広げる具体策は何ですか。",
+   time:"90秒"},
+  {no:14, field:"学問", level:"標準",
+   q:"経営学・社会学・データサイエンスを地域活性化にどう組み合わせますか。",
+   deep:"三つのうち大学で最も深く学びたい分野は。",
+   time:"90秒"},
+  {no:15, field:"学問", level:"応用",
+   q:"行動心理学を使って、中心市街地への来訪や回遊を促す仕掛けを提案してください。",
+   deep:"倫理的に注意すべき点は何ですか。",
+   time:"120秒"},
+  {no:16, field:"地域資源", level:"基礎",
+   q:"地域資源とは何ですか。伊勢崎の地域資源を三つ挙げてください。",
+   deep:"その中で未活用の資源はどれですか。",
+   time:"60秒"},
+  {no:17, field:"事例研究", level:"標準",
+   q:"秩父のまちおこしが成功した要因を分析してください。",
+   deep:"伊勢崎へそのまま移植できない点は何ですか。",
+   time:"90秒"},
+  {no:18, field:"観光", level:"標準",
+   q:"アルベルゴ・ディフーゾの仕組みと地域への効果を説明してください。",
+   deep:"伊勢崎で実施する場合の障害は何ですか。",
+   time:"90秒"},
+  {no:19, field:"地域社会", level:"標準",
+   q:"シビックプライドは、なぜまちづくりに重要なのですか。",
+   deep:"行政はシビックプライドを直接つくれますか。",
+   time:"90秒"},
+  {no:20, field:"地域経済", level:"標準",
+   q:"地域内経済循環とは何ですか。具体例を用いて説明してください。",
+   deep:"地域外から稼ぐこととの両立をどう考えますか。",
+   time:"90秒"},
+  {no:21, field:"起業", level:"基礎",
+   q:"チャレンジショップと年貸し販売棚の利点を説明してください。",
+   deep:"出店者の卒業後をどう支援しますか。",
+   time:"60秒"},
+  {no:22, field:"事例研究", level:"標準",
+   q:"Haji-Maruの取り組みから、空き家活用の成功条件を考えてください。",
+   deep:"収益性と公共性をどう両立しますか。",
+   time:"90秒"},
+  {no:23, field:"起業", level:"標準",
+   q:"居抜き物件・DIY・中古什器は、創業にどのような効果がありますか。",
+   deep:"コスト削減だけを優先するリスクは。",
+   time:"90秒"},
+  {no:24, field:"起業", level:"応用",
+   q:"日本政策金融公庫の融資を想定し、事業の収支目標をどう説明しますか。",
+   deep:"売上が計画を下回った場合の対応は。",
+   time:"120秒"},
+  {no:25, field:"社会革新", level:"標準",
+   q:"価値創発とソーシャルイノベーションの関係を説明してください。",
+   deep:"異なる立場の人を協働させる方法は。",
+   time:"90秒"},
+  {no:26, field:"学問", level:"標準",
+   q:"実践知とは何ですか。知識だけでは解けない地域課題の例を挙げてください。",
+   deep:"失敗から実践知を得た経験はありますか。",
+   time:"90秒"},
+  {no:27, field:"デジタル", level:"応用",
+   q:"サイバー空間と実際のまちを融合し、地域内経済循環を生む案を提案してください。",
+   deep:"デジタルが苦手な人を取り残さない工夫は。",
+   time:"120秒"},
+  {no:28, field:"政策", level:"応用",
+   q:"伊勢崎市中心市街地の活性化策を一つ提案してください。",
+   deep:"対象者、担い手、費用、KPIを具体的に述べてください。",
+   time:"120秒"},
+  {no:29, field:"企画", level:"応用",
+   q:"伊勢崎銘仙・カレー・多文化共生を組み合わせた事業を企画してください。",
+   deep:"一過性のイベントで終わらせない仕組みは。",
+   time:"120秒"},
+  {no:30, field:"データ活用", level:"応用",
+   q:"提案した地域活性化策の効果を、RESASなどのデータでどう検証しますか。",
+   deep:"相関と因果関係をどう区別しますか。",
+   time:"120秒"},
+  {no:31, field:"政策", level:"応用",
+   q:"あなたの提案に反対する商店主や住民がいたら、どう合意形成しますか。",
+   deep:"譲れない条件と変更できる条件は何ですか。",
+   time:"120秒"},
+  {no:32, field:"志望理由", level:"最重要",
+   q:"これらの地域課題を踏まえ、大学で何を学び、将来どのように伊勢崎へ還元したいですか。",
+   deep:"その学びに本学でなければならない理由は何ですか。",
+   time:"120秒"},
+  {no:33, field:"健康・食文化", level:"応用",
+   q:"カレーが夏バテ対策に役立つという説明を、科学的根拠に注意して論じてください。",
+   deep:"健康効果を商品PRに使う際、どんな表現を避けますか。",
+   time:"120秒"},
+  {no:34, field:"健康・文化", level:"標準",
+   q:"アーユルヴェーダとは何ですか。現代の地域事業へ取り入れる際の注意点は何ですか。",
+   deep:"伝統文化の尊重と安全性をどう両立しますか。",
+   time:"90秒"},
+  {no:35, field:"財政・政策", level:"応用",
+   q:"財政学の視点から、中心市街地活性化への公的支援をどう評価しますか。",
+   deep:"税金を投入する根拠と撤退基準を示してください。",
+   time:"120秒"},
+  {no:36, field:"国際観光", level:"応用",
+   q:"グローバル社会において、伊勢崎が国際観光を進める意義とリスクを説明してください。",
+   deep:"住民生活と観光客の受入れをどう両立しますか。",
+   time:"120秒"},
+  {no:37, field:"組織・心理", level:"応用",
+   q:"経営心理学を、まちづくり組織のモチベーションや信頼形成にどう生かしますか。",
+   deep:"無償協力に頼りすぎない運営方法はありますか。",
+   time:"120秒"},
+  {no:38, field:"地方創生", level:"最重要",
+   q:"あなたが考える地方創生とは何ですか。政策提言として伊勢崎に必要な一歩を述べてください。",
+   deep:"その提案は人口減少と東京一極集中にどう向き合いますか。",
+   time:"120秒"}
+];
+
+// ===============================
+// 回答・評価ガイド（解答・評価ガイド）
+// ===============================
+const GUIDE = {
+  1:{
+    skeleton:"結論→複数要因→因果関係",
+    points:"銘仙産業の衰退に加え、車社会化、郊外大型店への購買力流出、商店主の高齢化、駅周辺工事の長期化が重なった。単独原因ではなく、来街者減少と閉店が互いを強めた点が重要。",
+    eval:"原因を三つ以上挙げ、悪循環まで説明できる。",
+    caution:"原因の羅列だけにしない。"
+  },
+  2:{
+    skeleton:"変化→不利→対策",
+    points:"生活が車中心になると、広い無料駐車場を持つ郊外店が選ばれやすい。狭い道路と駐車場不足を抱える中心部は不利になる。公共交通、共同駐車場、歩いて楽しめる目的地を組み合わせる。",
+    eval:"交通行動と商業立地の関係が明確。",
+    caution:"車社会そのものを悪者にしない。"
+  },
+  3:{
+    skeleton:"定義→用途→指標",
+    points:"RESASは国が提供する地域経済分析システム。人口移動、産業、観光などを可視化し、課題の仮説づくりや施策前後の比較に使う。通行量、滞在時間、創業数なども併用する。",
+    eval:"データを意思決定と検証に結び付ける。",
+    caution:"RESASだけで因果関係が証明できると言わない。"
+  },
+  // …以下、No.4〜38も同じ形式で必要に応じて追加…
+};
+
+// ===============================
+// 状態管理・表示
+// ===============================
+let idx = 0;
+
+function render(){
+  const q = QUESTIONS[idx];
+  document.getElementById("meta").textContent =
+    `No.${q.no}｜分野：${q.field}｜難度：${q.level}｜目安：${q.time}`;
+  document.getElementById("question").textContent = q.q;
+  document.getElementById("deepQuestion").textContent = "深掘り質問：" + q.deep;
+  document.getElementById("status").textContent =
+    "①結論から話す ②理由・具体例 ③大学での学び・提案 までを意識して書いてみる";
+  document.getElementById("answerInput").value = "";
+  document.getElementById("guideBox").style.display = "none";
+}
+
+function showGuide(){
+  const q = QUESTIONS[idx];
+  const g = GUIDE[q.no];
+  const box = document.getElementById("guideBox");
+
+  if(!g){
+    box.innerHTML = "<p>この質問の詳細ガイドはまだ未登録です。</p>";
+  }else{
+    box.innerHTML =
+      `<p><strong>回答の骨格：</strong>${g.skeleton}</p>`+
+      `<p><strong>回答例・要点：</strong>${g.points}</p>`+
+      `<p><strong>評価ポイント：</strong>${g.eval}</p>`+
+      `<p><strong>注意点：</strong>${g.caution}</p>`+
+      `<p style="margin-top:8px;color:#555;font-size:.85rem;">※回答例は暗記せず、「結論→理由・具体例→大学での学び／提案」の順で自分の言葉に置き換えてください。</p>`;
+  }
+  box.style.display = "block";
+}
+
+function next(){
+  idx = (idx + 1) % QUESTIONS.length;
+  render();
+}
+
+// 初期表示
+render();
+</script>
+
+</body>
+</html>

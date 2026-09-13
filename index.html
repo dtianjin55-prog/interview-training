@@ -1,485 +1,798 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>大学面接対策｜伊勢崎・地域創生 練習アプリ</title>
-
-<style>
-body{
-  font-family:system-ui,"Yu Gothic",sans-serif;
-  margin:0;background:#f4f6f9;color:#222;
-}
-header{
-  background:linear-gradient(135deg,#13315c,#0f7b8a);
-  color:#fff;padding:18px;font-size:1.1rem;
-  box-shadow:0 2px 6px rgba(0,0,0,.25);
-}
-main{padding:16px}
-.card{
-  background:#fff;padding:16px;border-radius:12px;
-  box-shadow:0 2px 6px rgba(0,0,0,.1);
-  margin-bottom:16px;border-left:6px solid #0f7b8a;
-}
-h2{font-size:1.05rem;margin:0 0 8px}
-label{font-size:.9rem;color:#555}
-textarea{
-  width:100%;min-height:90px;margin-top:6px;
-  padding:8px;border-radius:8px;border:1px solid #ccc;
-  font-family:inherit;font-size:.9rem;
-}
-button{
-  width:100%;padding:12px;border:none;border-radius:8px;
-  background:#0f7b8a;color:#fff;font-size:.95rem;
-  margin-top:10px;
-}
-button.secondary{
-  background:#145c3a;
-}
-#guideBox{
-  margin-top:12px;padding:12px;border-radius:10px;
-  background:#eef7ff;border-left:5px solid #0f7b8a;
-  font-size:.9rem;
-}
-#meta,#status{
-  font-size:.85rem;color:#555;margin-bottom:8px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>大学面接対策｜伊勢崎・地域創生 練習アプリ</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f7;
+      color: #222;
+    }
+    header {
+      background: #1f2933;
+      color: #fff;
+      padding: 12px 16px;
+    }
+    header h1 {
+      font-size: 18px;
+      margin: 0;
+    }
+    header p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    main {
+      padding: 12px 10px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .top-bar select, .top-bar input {
+      padding: 6px 8px;
+      font-size: 13px;
+    }
+    .question-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .question-header-left {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: baseline;
+    }
+    .question-no {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .question-meta {
+      font-size: 11px;
+      color: #555;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      margin-left: 4px;
+    }
+    .badge-field { background:#e0f2fe; color:#0369a1; }
+    .badge-level { background:#fef3c7; color:#92400e; }
+    .badge-time { background:#e5e7eb; color:#374151; }
+    .question-text {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .deep-question {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+    .section-body {
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      gap: 8px;
+    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+    }
+    button[disabled] {
+      background: #9ca3af;
+      cursor: default;
+    }
+    .small-btn {
+      background: #4b5563;
+    }
+    .index-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(70px,1fr));
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .index-item {
+      font-size: 11px;
+      padding: 6px 4px;
+      border-radius: 8px;
+      background: #e5e7eb;
+      text-align: center;
+      cursor: pointer;
+    }
+    .index-item.active {
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+    }
+    .index-item span {
+      display: block;
+      font-size: 10px;
+      color: #4b5563;
+    }
+    .index-item.active span {
+      color: #e5e7eb;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #111827;
+      color: #9ca3af;
+      font-size: 11px;
+      padding: 6px 10px;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      header h1 { font-size: 20px; }
+      .question-text { font-size: 15px; }
+      .section-body { font-size: 14px; }
+    }
+  </style>
 </head>
-
 <body>
-<header>大学面接対策｜伊勢崎・地域創生 練習アプリ</header>
+<header>
+  <h1>大学面接対策｜伊勢崎・地域創生 練習アプリ</h1>
+  <p>①結論から60〜120秒で答える ②深掘り質問も想定 ③回答後に評価ポイントで自己採点</p>
+</header>
 <main>
+  <div class="top-bar">
+    <label>
+      分野で絞り込み：
+      <select id="filterField">
+        <option value="all">すべて</option>
+        <option value="地域課題">地域課題</option>
+        <option value="データ活用">データ活用</option>
+        <option value="地域文化">地域文化</option>
+        <option value="食文化">食文化</option>
+        <option value="多文化">多文化</option>
+        <option value="企画">企画</option>
+        <option value="経営">経営</option>
+        <option value="学問">学問</option>
+        <option value="地域資源">地域資源</option>
+        <option value="事例研究">事例研究</option>
+        <option value="観光">観光</option>
+        <option value="地域社会">地域社会</option>
+        <option value="地域経済">地域経済</option>
+        <option value="起業">起業</option>
+        <option value="社会革新">社会革新</option>
+        <option value="デジタル">デジタル</option>
+        <option value="政策">政策</option>
+        <option value="志望理由">志望理由</option>
+        <option value="健康・食文化">健康・食文化</option>
+        <option value="健康・文化">健康・文化</option>
+        <option value="財政・政策">財政・政策</option>
+        <option value="国際観光">国際観光</option>
+        <option value="組織・心理">組織・心理</option>
+        <option value="地方創生">地方創生</option>
+      </select>
+    </label>
+    <label>
+      難度：
+      <select id="filterLevel">
+        <option value="all">すべて</option>
+        <option value="基礎">基礎</option>
+        <option value="標準">標準</option>
+        <option value="応用">応用</option>
+        <option value="最重要">最重要</option>
+      </select>
+    </label>
+    <label style="flex:1;min-width:120px;">
+      キーワード検索：
+      <input id="searchText" type="text" placeholder="銘仙 / カレー / 多文化 など">
+    </label>
+  </div>
 
-<div class="card">
-  <div id="meta"></div>
-  <h2 id="question">読み込み中…</h2>
-  <p id="deepQuestion" style="color:#555"></p>
-  <p id="status"></p>
+  <div id="questionContainer" class="question-card"></div>
 
-  <label for="answerInput">あなたの回答（60〜120秒を想定して書いてみる）</label>
-  <textarea id="answerInput" placeholder="結論→理由→具体例→大学での学び の順で書いてみる"></textarea>
+  <div class="nav-buttons">
+    <button id="prevBtn">← 前の質問</button>
+    <button id="nextBtn">次の質問 →</button>
+  </div>
 
-  <button onclick="showGuide()">ガイドを見る</button>
-  <button class="secondary" onclick="next()">次の質問へ</button>
-
-  <div id="guideBox" style="display:none"></div>
-</div>
-
+  <div class="index-grid" id="indexGrid"></div>
 </main>
 
+<footer>
+  面接本番では「結論→理由・具体例→大学での学び／提案」の順で、自分の言葉に言い換えてください。
+</footer>
+
 <script>
-// ===============================
-// 面接質問データ（38問）
-// ===============================
-const QUESTIONS = [
-  {no:1, field:"地域課題", level:"基礎",
-   q:"伊勢崎市の中心市街地が衰退した主な理由を説明してください。",
-   deep:"挙げた理由の中で、最も影響が大きいものは何ですか。",
-   time:"60秒"},
-  {no:2, field:"地域課題", level:"標準",
-   q:"モータリゼーションは、なぜ地方都市の中心市街地を衰退させるのですか。",
-   deep:"車の利便性を否定せずに中心部へ人を戻す方法はありますか。",
-   time:"90秒"},
-  {no:3, field:"データ活用", level:"基礎",
-   q:"RESASとは何ですか。地域課題の分析にどう使えますか。",
-   deep:"どのようなデータを見て施策の効果を測りますか。",
-   time:"60秒"},
-  {no:4, field:"地域文化", level:"基礎",
-   q:"伊勢崎銘仙の特徴と歴史的な価値を説明してください。",
-   deep:"現代の若者に魅力を伝えるなら、何を強調しますか。",
-   time:"60秒"},
-  {no:5, field:"地域文化", level:"標準",
-   q:"併用絣の技術的な特徴を、専門知識のない人にも分かるように説明してください。",
-   deep:"その技術を商品や体験にどう展開できますか。",
-   time:"90秒"},
-  {no:6, field:"食文化", level:"基礎",
-   q:"日本のルーカレー、インドカレー、タイカレー、欧風カレーの違いを説明してください。",
-   deep:"伊勢崎で提供するなら、どのタイプを選びますか。",
-   time:"60秒"},
-  {no:7, field:"食文化", level:"標準",
-   q:"北インドカレーと南インドカレーの違いを、主食や味の特徴から比較してください。",
-   deep:"違いが生まれた背景をどう考えますか。",
-   time:"90秒"},
-  {no:8, field:"多文化", level:"標準",
-   q:"インドでベジタリアンが多い背景と、飲食店運営上の配慮を説明してください。",
-   deep:"日本人客とベジタリアン客を両立させるメニュー設計は。",
-   time:"90秒"},
-  {no:9, field:"多文化", level:"基礎",
-   q:"伊勢崎市に外国人住民が多いことのメリットを挙げてください。",
-   deep:"地域経済への効果を具体化してください。",
-   time:"60秒"},
-  {no:10, field:"多文化", level:"標準",
-   q:"多文化共生を進める際の課題を挙げ、解決策を一つ提案してください。",
-   deep:"その施策の費用や担い手はどうしますか。",
-   time:"90秒"},
-  {no:11, field:"多文化", level:"応用",
-   q:"多文化共生と治安への不安感を、偏見を生まないように論じてください。",
-   deep:"住民間の信頼を測る指標は何ですか。",
-   time:"120秒"},
-  {no:12, field:"企画", level:"基礎",
-   q:"レトロモダンとグローカルを、それぞれ説明してください。",
-   deep:"両方を伊勢崎のまちづくりにどう取り入れますか。",
-   time:"60秒"},
-  {no:13, field:"経営", level:"標準",
-   q:"ブランディングとマーケティングの違いを説明してください。",
-   deep:"新店舗の認知を広げる具体策は何ですか。",
-   time:"90秒"},
-  {no:14, field:"学問", level:"標準",
-   q:"経営学・社会学・データサイエンスを地域活性化にどう組み合わせますか。",
-   deep:"三つのうち大学で最も深く学びたい分野は。",
-   time:"90秒"},
-  {no:15, field:"学問", level:"応用",
-   q:"行動心理学を使って、中心市街地への来訪や回遊を促す仕掛けを提案してください。",
-   deep:"倫理的に注意すべき点は何ですか。",
-   time:"120秒"},
-  {no:16, field:"地域資源", level:"基礎",
-   q:"地域資源とは何ですか。伊勢崎の地域資源を三つ挙げてください。",
-   deep:"その中で未活用の資源はどれですか。",
-   time:"60秒"},
-  {no:17, field:"事例研究", level:"標準",
-   q:"秩父のまちおこしが成功した要因を分析してください。",
-   deep:"伊勢崎へそのまま移植できない点は何ですか。",
-   time:"90秒"},
-  {no:18, field:"観光", level:"標準",
-   q:"アルベルゴ・ディフーゾの仕組みと地域への効果を説明してください。",
-   deep:"伊勢崎で実施する場合の障害は何ですか。",
-   time:"90秒"},
-  {no:19, field:"地域社会", level:"標準",
-   q:"シビックプライドは、なぜまちづくりに重要なのですか。",
-   deep:"行政はシビックプライドを直接つくれますか。",
-   time:"90秒"},
-  {no:20, field:"地域経済", level:"標準",
-   q:"地域内経済循環とは何ですか。具体例を用いて説明してください。",
-   deep:"地域外から稼ぐこととの両立をどう考えますか。",
-   time:"90秒"},
-  {no:21, field:"起業", level:"基礎",
-   q:"チャレンジショップと年貸し販売棚の利点を説明してください。",
-   deep:"出店者の卒業後をどう支援しますか。",
-   time:"60秒"},
-  {no:22, field:"事例研究", level:"標準",
-   q:"Haji-Maruの取り組みから、空き家活用の成功条件を考えてください。",
-   deep:"収益性と公共性をどう両立しますか。",
-   time:"90秒"},
-  {no:23, field:"起業", level:"標準",
-   q:"居抜き物件・DIY・中古什器は、創業にどのような効果がありますか。",
-   deep:"コスト削減だけを優先するリスクは。",
-   time:"90秒"},
-  {no:24, field:"起業", level:"応用",
-   q:"日本政策金融公庫の融資を想定し、事業の収支目標をどう説明しますか。",
-   deep:"売上が計画を下回った場合の対応は。",
-   time:"120秒"},
-  {no:25, field:"社会革新", level:"標準",
-   q:"価値創発とソーシャルイノベーションの関係を説明してください。",
-   deep:"異なる立場の人を協働させる方法は。",
-   time:"90秒"},
-  {no:26, field:"学問", level:"標準",
-   q:"実践知とは何ですか。知識だけでは解けない地域課題の例を挙げてください。",
-   deep:"失敗から実践知を得た経験はありますか。",
-   time:"90秒"},
-  {no:27, field:"デジタル", level:"応用",
-   q:"サイバー空間と実際のまちを融合し、地域内経済循環を生む案を提案してください。",
-   deep:"デジタルが苦手な人を取り残さない工夫は。",
-   time:"120秒"},
-  {no:28, field:"政策", level:"応用",
-   q:"伊勢崎市中心市街地の活性化策を一つ提案してください。",
-   deep:"対象者、担い手、費用、KPIを具体的に述べてください。",
-   time:"120秒"},
-  {no:29, field:"企画", level:"応用",
-   q:"伊勢崎銘仙・カレー・多文化共生を組み合わせた事業を企画してください。",
-   deep:"一過性のイベントで終わらせない仕組みは。",
-   time:"120秒"},
-  {no:30, field:"データ活用", level:"応用",
-   q:"提案した地域活性化策の効果を、RESASなどのデータでどう検証しますか。",
-   deep:"相関と因果関係をどう区別しますか。",
-   time:"120秒"},
-  {no:31, field:"政策", level:"応用",
-   q:"あなたの提案に反対する商店主や住民がいたら、どう合意形成しますか。",
-   deep:"譲れない条件と変更できる条件は何ですか。",
-   time:"120秒"},
-  {no:32, field:"志望理由", level:"最重要",
-   q:"これらの地域課題を踏まえ、大学で何を学び、将来どのように伊勢崎へ還元したいですか。",
-   deep:"その学びに本学でなければならない理由は何ですか。",
-   time:"120秒"},
-  {no:33, field:"健康・食文化", level:"応用",
-   q:"カレーが夏バテ対策に役立つという説明を、科学的根拠に注意して論じてください。",
-   deep:"健康効果を商品PRに使う際、どんな表現を避けますか。",
-   time:"120秒"},
-  {no:34, field:"健康・文化", level:"標準",
-   q:"アーユルヴェーダとは何ですか。現代の地域事業へ取り入れる際の注意点は何ですか。",
-   deep:"伝統文化の尊重と安全性をどう両立しますか。",
-   time:"90秒"},
-  {no:35, field:"財政・政策", level:"応用",
-   q:"財政学の視点から、中心市街地活性化への公的支援をどう評価しますか。",
-   deep:"税金を投入する根拠と撤退基準を示してください。",
-   time:"120秒"},
-  {no:36, field:"国際観光", level:"応用",
-   q:"グローバル社会において、伊勢崎が国際観光を進める意義とリスクを説明してください。",
-   deep:"住民生活と観光客の受入れをどう両立しますか。",
-   time:"120秒"},
-  {no:37, field:"組織・心理", level:"応用",
-   q:"経営心理学を、まちづくり組織のモチベーションや信頼形成にどう生かしますか。",
-   deep:"無償協力に頼りすぎない運営方法はありますか。",
-   time:"120秒"},
-  {no:38, field:"地方創生", level:"最重要",
-   q:"あなたが考える地方創生とは何ですか。政策提言として伊勢崎に必要な一歩を述べてください。",
-   deep:"その提案は人口減少と東京一極集中にどう向き合いますか。",
-   time:"120秒"}
+const questions = [
+  {
+    no: 1,
+    field: "地域課題",
+    level: "基礎",
+    time: "60秒",
+    question: "伊勢崎市の中心市街地が衰退した主な理由を説明してください。",
+    deep: "挙げた理由の中で、最も影響が大きいものは何ですか。",
+    skeleton: "結論→複数要因→因果関係",
+    answer: "銘仙産業の衰退に加え、車社会化、郊外大型店への購買力流出、商店主の高齢化、駅周辺工事の長期化が重なった。単独原因ではなく、来街者減少と閉店が互いを強めた点が重要。",
+    eval: "原因を三つ以上挙げ、悪循環まで説明できる。",
+    caution: "原因の羅列だけにしない。"
+  },
+  {
+    no: 2,
+    field: "地域課題",
+    level: "標準",
+    time: "90秒",
+    question: "モータリゼーションは、なぜ地方都市の中心市街地を衰退させるのですか。",
+    deep: "車の利便性を否定せずに中心部へ人を戻す方法はありますか。",
+    skeleton: "変化→不利→対策",
+    answer: "生活が車中心になると、広い無料駐車場を持つ郊外店が選ばれやすい。狭い道路と駐車場不足を抱える中心部は不利になる。公共交通、共同駐車場、歩いて楽しめる目的地を組み合わせる。",
+    eval: "交通行動と商業立地の関係が明確。",
+    caution: "車社会そのものを悪者にしない。"
+  },
+  {
+    no: 3,
+    field: "データ活用",
+    level: "基礎",
+    time: "60秒",
+    question: "RESASとは何ですか。地域課題の分析にどう使えますか。",
+    deep: "どのようなデータを見て施策の効果を測りますか。",
+    skeleton: "定義→用途→指標",
+    answer: "RESASは国が提供する地域経済分析システム。人口移動、産業、観光などを可視化し、課題の仮説づくりや施策前後の比較に使う。通行量、滞在時間、創業数なども併用する。",
+    eval: "データを意思決定と検証に結び付ける。",
+    caution: "RESASだけで因果関係が証明できると言わない。"
+  },
+  {
+    no: 4,
+    field: "地域文化",
+    level: "基礎",
+    time: "60秒",
+    question: "伊勢崎銘仙の特徴と歴史的な価値を説明してください。",
+    deep: "現代の若者に魅力を伝えるなら、何を強調しますか。",
+    skeleton: "定義→特徴→価値",
+    answer: "伊勢崎銘仙は伊勢崎周辺で発展した平織りの絹織物で、大正から昭和初期に普段着として人気を得た。色柄と地域の産業史が価値であり、現在は物語性を含む文化資源になる。",
+    eval: "歴史・技術・現代価値をつなぐ。",
+    caution: "単なる古い着物と説明しない。"
+  },
+  {
+    no: 5,
+    field: "地域文化",
+    level: "標準",
+    time: "90秒",
+    question: "併用絣の技術的な特徴を、専門知識のない人にも分かるように説明してください。",
+    deep: "その技術を商品や体験にどう展開できますか。",
+    skeleton: "平易な説明→魅力→活用",
+    answer: "縦糸と横糸の両方を先に染め、織る際のわずかなずれで、かすれや奥行きのある柄を生む技術。見学、染織体験、デジタル柄制作などへ展開できる。",
+    eval: "専門語を言い換え、活用案まで示す。",
+    caution: "技術説明を暗記調にしない。"
+  },
+  {
+    no: 6,
+    field: "食文化",
+    level: "基礎",
+    time: "60秒",
+    question: "日本のルーカレー、インドカレー、タイカレー、欧風カレーの違いを説明してください。",
+    deep: "伊勢崎で提供するなら、どのタイプを選びますか。",
+    skeleton: "共通点→相違→選択",
+    answer: "日本は小麦粉のルーでとろみ、インドは多様なスパイスと地域差、タイはハーブ・ココナッツミルク・ナンプラー、欧風はフォンやバターの濃厚さが特徴。客層と企画目的に合わせて選ぶ。",
+    eval: "比較軸がそろっている。",
+    caution: "国ごとに一種類しかないように断定しない。"
+  },
+  {
+    no: 7,
+    field: "食文化",
+    level: "標準",
+    time: "90秒",
+    question: "北インドカレーと南インドカレーの違いを、主食や味の特徴から比較してください。",
+    deep: "違いが生まれた背景をどう考えますか。",
+    skeleton: "比較軸を提示→背景",
+    answer: "北は小麦のパンと濃厚でクリーミーな料理、南は米と合わせるさらっとした酸味のある料理が代表的。気候、農産物、食文化の違いが背景にある。",
+    eval: "主食・味・背景を比較する。",
+    caution: "地域内の多様性にも触れる。"
+  },
+  {
+    no: 8,
+    field: "多文化",
+    level: "標準",
+    time: "90秒",
+    question: "インドでベジタリアンが多い背景と、飲食店運営上の配慮を説明してください。",
+    deep: "日本人客とベジタリアン客を両立させるメニュー設計は。",
+    skeleton: "背景→ニーズ→運営",
+    answer: "宗教上の不殺生思想などが背景にあり、卵を避け乳製品は取る人も多い。原材料表示、調理器具の分離、選べるメニュー、従業員教育が必要。",
+    eval: "文化理解を具体的な店舗運営へ落とす。",
+    caution: "全員が同じ食習慣だと決めつけない。"
+  },
+  {
+    no: 9,
+    field: "多文化",
+    level: "基礎",
+    time: "60秒",
+    question: "伊勢崎市に外国人住民が多いことのメリットを挙げてください。",
+    deep: "地域経済への効果を具体化してください。",
+    skeleton: "事実→三つの効果",
+    answer: "外国人住民は製造業などの労働力を支え、人口減少を緩和し、多様な食や文化を地域の魅力にする可能性がある。言語支援を通じた行政ノウハウの蓄積も利点。",
+    eval: "経済・人口・文化をバランスよく述べる。",
+    caution: "メリットだけで課題を無視しない。"
+  },
+  {
+    no: 10,
+    field: "多文化",
+    level: "標準",
+    time: "90秒",
+    question: "多文化共生を進める際の課題を挙げ、解決策を一つ提案してください。",
+    deep: "その施策の費用や担い手はどうしますか。",
+    skeleton: "課題→原因→解決策",
+    answer: "言語の壁、生活ルールの違い、地域での孤立が課題。多言語案内だけでなく、自治会・学校・事業者が参加する対話型の生活オリエンテーションを継続し、双方が学ぶ場にする。",
+    eval: "課題と解決策が対応している。",
+    caution: "外国人だけに適応を求めない。"
+  },
+  {
+    no: 11,
+    field: "多文化",
+    level: "応用",
+    time: "120秒",
+    question: "多文化共生と治安への不安感を、偏見を生まないように論じてください。",
+    deep: "住民間の信頼を測る指標は何ですか。",
+    skeleton: "事実と感情を分離→対話",
+    answer: "不安感は尊重しつつ、国籍と犯罪を短絡させない。客観データを確認し、交流機会、相談窓口、ルール共有を進める。信頼度調査や参加率も追う。",
+    eval: "偏見を避け、データと対話を両立する。",
+    caution: "根拠なく安全・危険と断定しない。"
+  },
+  {
+    no: 12,
+    field: "企画",
+    level: "基礎",
+    time: "60秒",
+    question: "レトロモダンとグローカルを、それぞれ説明してください。",
+    deep: "両方を伊勢崎のまちづくりにどう取り入れますか。",
+    skeleton: "二語を定義→統合案",
+    answer: "レトロモダンは懐かしさを現代の機能やデザインへ再編集する考え方。グローカルは世界的視野で地域に行動する考え方。銘仙柄を現代店舗や海外発信へ生かす。",
+    eval: "二概念を具体策で結び付ける。",
+    caution: "雰囲気だけの説明にしない。"
+  },
+  {
+    no: 13,
+    field: "経営",
+    level: "標準",
+    time: "90秒",
+    question: "ブランディングとマーケティングの違いを説明してください。",
+    deep: "新店舗の認知を広げる具体策は何ですか。",
+    skeleton: "目的の違い→連動",
+    answer: "ブランディングは顧客の頭の中に独自のイメージを築く活動。マーケティングは調査、標的設定、商品・価格・販路・宣伝を設計し売れる仕組みを作る活動。両者は連動する。",
+    eval: "違いと関係を説明する。",
+    caution: "広告だけをマーケティングとしない。"
+  },
+  {
+    no: 14,
+    field: "学問",
+    level: "標準",
+    time: "90秒",
+    question: "経営学・社会学・データサイエンスを地域活性化にどう組み合わせますか。",
+    deep: "三つのうち大学で最も深く学びたい分野は。",
+    skeleton: "各学問の役割→統合",
+    answer: "経営学で持続可能な事業設計、社会学で住民関係や背景、データサイエンスで現状把握と効果検証を担う。三つを往復して、実行可能で受け入れられる施策にする。",
+    eval: "学際性を具体的な役割で示す。",
+    caution: "学問名の羅列にしない。"
+  },
+  {
+    no: 15,
+    field: "学問",
+    level: "応用",
+    time: "120秒",
+    question: "行動心理学を使って、中心市街地への来訪や回遊を促す仕掛けを提案してください。",
+    deep: "倫理的に注意すべき点は何ですか。",
+    skeleton: "行動目標→仕掛け→倫理",
+    answer: "回遊マップ、店舗を巡るスタンプ、社会的証明を活用した混雑表示などで行動のきっかけを作る。選択の自由、個人情報、過度な誘導に配慮する。",
+    eval: "行動変容の仕組みと倫理を説明する。",
+    caution: "心理操作を肯定しない。"
+  },
+  {
+    no: 16,
+    field: "地域資源",
+    level: "基礎",
+    time: "60秒",
+    question: "地域資源とは何ですか。伊勢崎の地域資源を三つ挙げてください。",
+    deep: "その中で未活用の資源はどれですか。",
+    skeleton: "定義→例→選択",
+    answer: "地域資源は地域特有で活性化に使える資産。伊勢崎銘仙、外国人住民が育む食文化、空き店舗や歴史的建物などが例。組み合わせることで独自性が高まる。",
+    eval: "有形・無形資源を挙げる。",
+    caution: "観光名所だけに限定しない。"
+  },
+  {
+    no: 17,
+    field: "事例研究",
+    level: "標準",
+    time: "90秒",
+    question: "秩父のまちおこしが成功した要因を分析してください。",
+    deep: "伊勢崎へそのまま移植できない点は何ですか。",
+    skeleton: "成功要因→移植条件",
+    answer: "秩父はアニメ、ウイスキー、鉄道アクセス、温泉、官民組織を組み合わせた。伊勢崎では固有資源と交通条件が違うため、仕組みを学びつつ銘仙や多文化性に置き換える。",
+    eval: "模倣でなく適応を論じる。",
+    caution: "観光客数だけで成功を判断しない。"
+  },
+  {
+    no: 18,
+    field: "観光",
+    level: "標準",
+    time: "90秒",
+    question: "アルベルゴ・ディフーゾの仕組みと地域への効果を説明してください。",
+    deep: "伊勢崎で実施する場合の障害は何ですか。",
+    skeleton: "仕組み→効果→障害",
+    answer: "街中の複数施設を一つのホテルのように運営し、空き家、飲食、地域体験をつなぐ。滞在消費と改修を促せるが、運営主体、品質統一、法規、需要確保が課題。",
+    eval: "仕組みと実施条件を説明する。",
+    caution: "建物改修だけの話にしない。"
+  },
+  {
+    no: 19,
+    field: "地域社会",
+    level: "標準",
+    time: "90秒",
+    question: "シビックプライドは、なぜまちづくりに重要なのですか。",
+    deep: "行政はシビックプライドを直接つくれますか。",
+    skeleton: "定義→効果→形成方法",
+    answer: "シビックプライドは地域への誇り、愛着、当事者意識。住民の参加や継続的な活動を支える。行政は機会を設計できるが、誇りそのものは共同体験から育つ。",
+    eval: "参加との因果を説明する。",
+    caution: "観光PRだけに置き換えない。"
+  },
+  {
+    no: 20,
+    field: "地域経済",
+    level: "標準",
+    time: "90秒",
+    question: "地域内経済循環とは何ですか。具体例を用いて説明してください。",
+    deep: "地域外から稼ぐこととの両立をどう考えますか。",
+    skeleton: "循環を図式化→外貨獲得",
+    answer: "地元店の売上が地元雇用や地元仕入れに回り、所得と消費が地域内を循環すること。地域外から観光消費を得て、地元調達率を高めると両立できる。",
+    eval: "域外獲得と域内循環の双方を扱う。",
+    caution: "地域外取引を全否定しない。"
+  },
+  {
+    no: 21,
+    field: "起業",
+    level: "基礎",
+    time: "60秒",
+    question: "チャレンジショップと年貸し販売棚の利点を説明してください。",
+    deep: "出店者の卒業後をどう支援しますか。",
+    skeleton: "低リスク→育成→出口",
+    answer: "短期・小区画で販売経験を積めるため、初期費用と失敗リスクを下げられる。研修、顧客データ、資金相談、空き店舗とのマッチングで本出店へつなぐ。",
+    eval: "実験から独立までの流れを示す。",
+    caution: "場所を貸すだけで終わらせない。"
+  },
+  {
+    no: 22,
+    field: "事例研究",
+    level: "標準",
+    time: "90秒",
+    question: "Haji-Maruの取り組みから、空き家活用の成功条件を考えてください。",
+    deep: "収益性と公共性をどう両立しますか。",
+    skeleton: "事例要素→成功条件",
+    answer: "古民家を改修し、日替わり飲食、民間図書館、イベントを複合させて来訪理由を増やした。運営者、地域との関係、複数収益源、継続的な企画が成功条件。",
+    eval: "空間・運営・収益を分析する。",
+    caution: "見た目の改修だけに注目しない。"
+  },
+  {
+    no: 23,
+    field: "起業",
+    level: "標準",
+    time: "90秒",
+    question: "居抜き物件・DIY・中古什器は、創業にどのような効果がありますか。",
+    deep: "コスト削減だけを優先するリスクは。",
+    skeleton: "効果→リスク→管理",
+    answer: "既存設備や自力改修で初期投資を抑え、早く開業できる。一方、安全、衛生、耐久性、ブランド統一を損なう恐れがあるため、専門家確認と優先順位付けが必要。",
+    eval: "費用対効果と品質管理を両立する。",
+    caution: "安ければ良いと結論づけない。"
+  },
+  {
+    no: 24,
+    field: "起業",
+    level: "応用",
+    time: "120秒",
+    question: "日本政策金融公庫の融資を想定し、事業の収支目標をどう説明しますか。",
+    deep: "売上が計画を下回った場合の対応は。",
+    skeleton: "前提→収支→下振れ策",
+    answer: "客数、客単価、営業日から売上を積み上げ、家賃、原価、人件費、返済を示して損益分岐点を説明する。下振れ時は固定費、商品構成、販路を段階的に見直す。",
+    eval: "数字の根拠と返済可能性を語る。",
+    caution: "希望的な売上目標だけにしない。"
+  },
+  {
+    no: 25,
+    field: "社会革新",
+    level: "標準",
+    time: "90秒",
+    question: "価値創発とソーシャルイノベーションの関係を説明してください。",
+    deep: "異なる立場の人を協働させる方法は。",
+    skeleton: "二概念→プロセス",
+    answer: "異なる人や技術の協働から新しい価値が生まれるのが価値創発。その価値を、社会課題を持続的に解く仕組みへ発展させることがソーシャルイノベーションにつながる。",
+    eval: "協働から社会変革への流れを示す。",
+    caution: "新奇なアイデアだけを革新としない。"
+  },
+  {
+    no: 26,
+    field: "学問",
+    level: "標準",
+    time: "90秒",
+    question: "実践知とは何ですか。知識だけでは解けない地域課題の例を挙げてください。",
+    deep: "失敗から実践知を得た経験はありますか。",
+    skeleton: "定義→具体例→学び方",
+    answer: "実践知は状況に応じて何が望ましいか判断し行動する力。多文化イベントでは、理論上良い企画でも住民の信頼や時期を読めなければ失敗する。実践と振り返りで磨く。",
+    eval: "理論と現場の往復を述べる。",
+    caution: "経験だけを重視して理論を軽視しない。"
+  },
+  {
+    no: 27,
+    field: "デジタル",
+    level: "応用",
+    time: "120秒",
+    question: "サイバー空間と実際のまちを融合し、地域内経済循環を生む案を提案してください。",
+    deep: "デジタルが苦手な人を取り残さない工夫は。",
+    skeleton: "リアルとデジタル→循環→包摂",
+    answer: "地域店舗を多言語で紹介し、予約、回遊、地域ポイントを一体化する。来店データを改善に使い、収益を地元事業者へ還元する。紙の案内や対面窓口も残す。",
+    eval: "デジタルが現地行動と地域所得につながる。",
+    caution: "アプリを作ること自体を目的にしない。"
+  },
+  {
+    no: 28,
+    field: "政策",
+    level: "応用",
+    time: "120秒",
+    question: "伊勢崎市中心市街地の活性化策を一つ提案してください。",
+    deep: "対象者、担い手、費用、KPIを具体的に述べてください。",
+    skeleton: "課題→対象→施策→KPI",
+    answer: "空き店舗を銘仙と多文化飲食のチャレンジ拠点にし、商工労働課、商店街、大学、外国人住民が運営する。KPIは来訪者、回遊店舗数、再訪率、卒業出店数、地元調達率。",
+    eval: "実行主体・資金・指標まで一貫する。",
+    caution: "大規模施設の建設だけに頼らない。"
+  },
+  {
+    no: 29,
+    field: "企画",
+    level: "応用",
+    time: "120秒",
+    question: "伊勢崎銘仙・カレー・多文化共生を組み合わせた事業を企画してください。",
+    deep: "一過性のイベントで終わらせない仕組みは。",
+    skeleton: "価値提案→顧客→収益→継続",
+    answer: "銘仙柄の空間で各国カレーと染織体験を提供する複合拠点を構想する。飲食、物販、体験料、棚貸しを収益源にし、月替わり出店と育成制度で継続性を持たせる。",
+    eval: "三つの資源が必然的に結び付く。",
+    caution: "要素を並べただけの企画にしない。"
+  },
+  {
+    no: 30,
+    field: "データ活用",
+    level: "応用",
+    time: "120秒",
+    question: "提案した地域活性化策の効果を、RESASなどのデータでどう検証しますか。",
+    deep: "相関と因果関係をどう区別しますか。",
+    skeleton: "仮説→基準値→比較→改善",
+    answer: "開始前の通行量、空き店舗率、来訪属性を記録し、開始後の再訪率、売上、滞在時間と比較する。類似地区との比較やアンケートも使い、他要因を考慮して改善する。",
+    eval: "事前・事後と定量・定性を組み合わせる。",
+    caution: "数字が増えたことだけで因果を断定しない。"
+  },
+  {
+    no: 31,
+    field: "政策",
+    level: "応用",
+    time: "120秒",
+    question: "あなたの提案に反対する商店主や住民がいたら、どう合意形成しますか。",
+    deep: "譲れない条件と変更できる条件は何ですか。",
+    skeleton: "傾聴→利害整理→試行→合意",
+    answer: "反対理由を個別に聞き、騒音、費用、既存店との競合などを整理する。小規模な実証で影響を確認し、公開データと対話で修正する。安全や公平性は譲らない。",
+    eval: "反対意見を改善材料として扱う。",
+    caution: "説得や多数決だけで押し切らない。"
+  },
+  {
+    no: 32,
+    field: "志望理由",
+    level: "最重要",
+    time: "120秒",
+    question: "これらの地域課題を踏まえ、大学で何を学び、将来どのように伊勢崎へ還元したいですか。",
+    deep: "その学びに本学でなければならない理由は何ですか。",
+    skeleton: "問題意識→大学での学び→行動→将来",
+    answer: "伊勢崎の衰退を商業問題だけでなく、多文化、経営、データの課題として捉えている。大学で経営学とデータ分析を学び、現地調査と実証を重ね、卒業後は持続可能な地域事業や政策提言へ還元したい。",
+    eval: "本人の経験、本学の授業・ゼミ、将来像が一本につながる。",
+    caution: "学校名を替えても通じる志望理由にしない。"
+  },
+  {
+    no: 33,
+    field: "健康・食文化",
+    level: "応用",
+    time: "120秒",
+    question: "カレーが夏バテ対策に役立つという説明を、科学的根拠に注意して論じてください。",
+    deep: "健康効果を商品PRに使う際、どんな表現を避けますか。",
+    skeleton: "主張→根拠の範囲→安全な表現",
+    answer: "スパイスによる食欲や発汗、具材による栄養摂取は考えられるが、個人差があり治療効果は断定できない。『バランスのよい食事の一案』として伝え、体調不良時は医療機関への相談を促す。",
+    eval: "資料の主張をうのみにせず、根拠と限界を区別する。",
+    caution: "病気の予防・治療を保証しない。"
+  },
+  {
+    no: 34,
+    field: "健康・文化",
+    level: "標準",
+    time: "90秒",
+    question: "アーユルヴェーダとは何ですか。現代の地域事業へ取り入れる際の注意点は何ですか。",
+    deep: "伝統文化の尊重と安全性をどう両立しますか。",
+    skeleton: "定義→文化価値→導入条件",
+    answer: "アーユルヴェーダはインドなどで受け継がれた伝統的な生命・健康観。食や体験として紹介する際は、文化的背景を正確に伝え、医療行為との境界、安全性、専門家監修に配慮する。",
+    eval: "文化尊重と消費者保護を両立する。",
+    caution: "伝統的であることを科学的効果の証明としない。"
+  },
+  {
+    no: 35,
+    field: "財政・政策",
+    level: "応用",
+    time: "120秒",
+    question: "財政学の視点から、中心市街地活性化への公的支援をどう評価しますか。",
+    deep: "税金を投入する根拠と撤退基準を示してください。",
+    skeleton: "市場の限界→公益→検証",
+    answer: "空き店舗や景観には、民間だけでは投資しにくい外部効果があるため公的支援に意義がある。ただし、期限、自己負担、雇用や来訪などのKPIを定め、効果が乏しければ見直す。",
+    eval: "税金投入の根拠と説明責任を述べる。",
+    caution: "補助金の継続を目的化しない。"
+  },
+  {
+    no: 36,
+    field: "国際観光",
+    level: "応用",
+    time: "120秒",
+    question: "グローバル社会において、伊勢崎が国際観光を進める意義とリスクを説明してください。",
+    deep: "住民生活と観光客の受入れをどう両立しますか。",
+    skeleton: "意義→地域適合→リスク管理",
+    answer: "国際観光は域外需要を取り込み、多文化性や銘仙を世界へ発信できる。一方、混雑、文化の商品化、受入れ負担がある。小規模・滞在型で地域事業者への還元を重視する。",
+    eval: "経済・社会文化・環境を多角的に扱う。",
+    caution: "外国人住民と観光客を混同しない。"
+  },
+  {
+    no: 37,
+    field: "組織・心理",
+    level: "応用",
+    time: "120秒",
+    question: "経営心理学を、まちづくり組織のモチベーションや信頼形成にどう生かしますか。",
+    deep: "無償協力に頼りすぎない運営方法はありますか。",
+    skeleton: "心理要因→制度設計→持続性",
+    answer: "目的の共有、役割の明確化、成果の可視化、公平な承認が参加意欲と信頼を高める。特定の人の善意に依存せず、有給担当者、交代制、意思決定ルールを設ける。",
+    eval: "人の心理と組織制度を結び付ける。",
+    caution: "精神論だけで協働を求めない。"
+  },
+  {
+    no: 38,
+    field: "地方創生",
+    level: "最重要",
+    time: "120秒",
+    question: "あなたが考える地方創生とは何ですか。政策提言として伊勢崎に必要な一歩を述べてください。",
+    deep: "その提案は人口減少と東京一極集中にどう向き合いますか。",
+    skeleton: "定義→地域の強み→一歩→検証",
+    answer: "地方創生は人口を増やすことだけでなく、地域の強みを生かして自立的で持続可能な生活と仕事をつくること。伊勢崎では銘仙、多文化、空き店舗を結ぶ小規模実証を行い、データで検証して政策化する。",
+    eval: "自分の定義、具体策、国の課題との関係が一貫する。",
+    caution: "イベント一回で地方創生が実現すると言わない。"
+  }
 ];
 
+let filtered = [...questions];
+let currentIndex = 0;
 
-// ===============================
-// ガイド（38問 × 6ブロック）
-// ===============================
-const GUIDE = {
+const container = document.getElementById("questionContainer");
+const indexGrid = document.getElementById("indexGrid");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const filterField = document.getElementById("filterField");
+const filterLevel = document.getElementById("filterLevel");
+const searchText = document.getElementById("searchText");
 
-const GUIDE = {
-  1:{skeleton:"結論→複数要因→因果関係",
-     points:"銘仙産業の衰退、車社会化、郊外大型店への購買力流出、商店主の高齢化、駅周辺工事の長期化が重なった。来街者減少と閉店が互いを強めた悪循環が重要。",
-     eval:"原因を三つ以上挙げ、悪循環まで説明できる。",
-     caution:"原因の羅列だけにしない。"},
+function renderQuestion() {
+  if (filtered.length === 0) {
+    container.innerHTML = "<p>条件に合う質問がありません。フィルターを緩めてください。</p>";
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return;
+  }
+  if (currentIndex < 0) currentIndex = 0;
+  if (currentIndex >= filtered.length) currentIndex = filtered.length - 1;
+  const q = filtered[currentIndex];
+  container.innerHTML = `
+    <div class="question-header">
+      <div class="question-header-left">
+        <div class="question-no">No.${q.no}</div>
+        <div class="question-meta">
+          <span class="badge badge-field">${q.field}</span>
+          <span class="badge badge-level">${q.level}</span>
+          <span class="badge badge-time">${q.time}</span>
+        </div>
+      </div>
+      <div class="question-meta">全 ${filtered.length} 問中 ${currentIndex + 1} 問目</div>
+    </div>
+    <div class="question-text">${q.question}</div>
+    <div class="deep-question">深掘り質問：${q.deep}</div>
+    <div class="section-title">回答の骨格（話す順番の型）</div>
+    <div class="section-body">${q.skeleton}</div>
+    <div class="section-title">回答例・要点（そのまま暗記せず、自分の経験に置き換える）</div>
+    <div class="section-body">${q.answer}</div>
+    <div class="section-title">評価ポイント（自分の回答をチェック）</div>
+    <div class="section-body">${q.eval}</div>
+    <div class="section-title">注意点（言い過ぎ・偏りを避ける）</div>
+    <div class="section-body">${q.caution}</div>
+  `;
+  prevBtn.disabled = currentIndex === 0;
+  nextBtn.disabled = currentIndex === filtered.length - 1;
+  renderIndexGrid();
+}
 
-  2:{skeleton:"変化→不利→対策",
-     points:"車中心の生活で広い無料駐車場を持つ郊外店が選ばれやすい。中心部は道路の狭さと駐車場不足で不利。公共交通、共同駐車場、歩いて楽しめる目的地を組み合わせる。",
-     eval:"交通行動と商業立地の関係が明確。",
-     caution:"車社会そのものを悪者にしない。"},
+function renderIndexGrid() {
+  indexGrid.innerHTML = "";
+  filtered.forEach((q, idx) => {
+    const div = document.createElement("div");
+    div.className = "index-item" + (idx === currentIndex ? " active" : "");
+    div.innerHTML = `${q.no}<span>${q.field}</span>`;
+    div.onclick = () => {
+      currentIndex = idx;
+      renderQuestion();
+    };
+    indexGrid.appendChild(div);
+  });
+}
 
-  3:{skeleton:"定義→用途→指標",
-     points:"RESASは国の地域経済分析システム。人口移動、産業、観光を可視化し、課題の仮説づくりや施策前後の比較に使う。通行量、滞在時間、創業数なども併用する。",
-     eval:"データを意思決定と検証に結び付ける。",
-     caution:"RESASだけで因果関係を証明できると言わない。"},
+function applyFilter() {
+  const field = filterField.value;
+  const level = filterLevel.value;
+  const text = searchText.value.trim();
+  filtered = questions.filter(q => {
+    if (field !== "all" && q.field !== field) return false;
+    if (level !== "all" && q.level !== level) return false;
+    if (text) {
+      const t = text.toLowerCase();
+      const joined = (q.question + q.deep + q.answer + q.skeleton).toLowerCase();
+      if (!joined.includes(t)) return false;
+    }
+    return true;
+  });
+  currentIndex = 0;
+  renderQuestion();
+}
 
-  4:{skeleton:"定義→特徴→価値",
-     points:"伊勢崎銘仙は大正〜昭和初期に普段着として人気を得た絹織物。色柄と地域産業史が価値で、現代では物語性を含む文化資源になる。",
-     eval:"歴史・技術・現代価値をつなぐ。",
-     caution:"単なる古い着物と説明しない。"},
-
-  5:{skeleton:"平易な説明→魅力→活用",
-     points:"縦糸と横糸を先に染め、織る際のずれでかすれ柄が生まれる技術。見学、染織体験、デジタル柄制作などへ展開できる。",
-     eval:"専門語を言い換え、活用案まで示す。",
-     caution:"技術説明を暗記調にしない。"},
-
-  6:{skeleton:"共通点→相違→選択",
-     points:"日本はルーでとろみ、インドはスパイスと地域差、タイはハーブとココナッツ、欧風はフォンとバターの濃厚さ。客層と企画目的に合わせて選ぶ。",
-     eval:"比較軸がそろっている。",
-     caution:"国ごとに一種類しかないように断定しない。"},
-
-  7:{skeleton:"比較軸→背景",
-     points:"北はパンと濃厚料理、南は米とさらっとした酸味の料理。気候、農産物、食文化の違いが背景。",
-     eval:"主食・味・背景を比較する。",
-     caution:"地域内の多様性にも触れる。"},
-
-  8:{skeleton:"背景→ニーズ→運営",
-     points:"宗教上の不殺生思想が背景。卵を避け乳製品は取る人も多い。原材料表示、器具の分離、選べるメニュー、従業員教育が必要。",
-     eval:"文化理解を具体的な店舗運営へ落とす。",
-     caution:"全員が同じ食習慣だと決めつけない。"},
-
-  9:{skeleton:"事実→三つの効果",
-     points:"外国人住民は労働力を支え、人口減少を緩和し、多文化が地域の魅力になる。行政の言語支援でノウハウも蓄積。",
-     eval:"経済・人口・文化をバランスよく述べる。",
-     caution:"メリットだけで課題を無視しない。"},
-
-  10:{skeleton:"課題→原因→解決策",
-      points:"言語の壁、生活ルールの違い、孤立が課題。自治会・学校・事業者が参加する対話型オリエンテーションを継続し双方が学ぶ場にする。",
-      eval:"課題と解決策が対応している。",
-      caution:"外国人だけに適応を求めない。"},
-
-  11:{skeleton:"事実と感情→対話",
-      points:"不安感は尊重しつつ、国籍と犯罪を短絡させない。客観データ、交流機会、相談窓口、ルール共有を進める。",
-      eval:"偏見を避け、データと対話を両立。",
-      caution:"根拠なく安全・危険と断定しない。"},
-
-  12:{skeleton:"二語を定義→統合案",
-      points:"レトロモダンは懐かしさを現代へ再編集。グローカルは世界視野で地域に行動。銘仙柄を現代店舗や海外発信へ生かす。",
-      eval:"二概念を具体策で結び付ける。",
-      caution:"雰囲気だけの説明にしない。"},
-
-  13:{skeleton:"目的の違い→連動",
-      points:"ブランディングはイメージ形成、マーケティングは売れる仕組みづくり。両者は連動する。",
-      eval:"違いと関係を説明する。",
-      caution:"広告だけをマーケティングとしない。"},
-
-  14:{skeleton:"役割→統合",
-      points:"経営学で事業設計、社会学で住民関係、データサイエンスで現状把握と検証。三つを往復して実行可能な施策にする。",
-      eval:"学際性を具体的な役割で示す。",
-      caution:"学問名の羅列にしない。"},
-
-  15:{skeleton:"行動目標→仕掛け→倫理",
-      points:"回遊マップ、スタンプ、混雑表示などで行動のきっかけを作る。自由、個人情報、過度な誘導に配慮。",
-      eval:"行動変容と倫理を説明する。",
-      caution:"心理操作を肯定しない。"},
-
-  16:{skeleton:"定義→例→選択",
-      points:"地域資源は地域特有の活性化資産。銘仙、多文化食、空き店舗など。組み合わせで独自性が高まる。",
-      eval:"有形・無形資源を挙げる。",
-      caution:"観光名所だけに限定しない。"},
-
-  17:{skeleton:"成功要因→移植条件",
-      points:"秩父はアニメ、ウイスキー、鉄道、温泉、官民協働の組み合わせ。伊勢崎では固有資源が違うため適応が必要。",
-      eval:"模倣でなく適応を論じる。",
-      caution:"観光客数だけで成功を判断しない。"},
-
-  18:{skeleton:"仕組み→効果→障害",
-      points:"街中の複数施設をホテルのように運営。滞在消費と改修を促す。運営主体、品質統一、法規、需要確保が課題。",
-      eval:"仕組みと実施条件を説明する。",
-      caution:"建物改修だけの話にしない。"},
-
-  19:{skeleton:"定義→効果→形成方法",
-      points:"シビックプライドは誇り・愛着・当事者意識。参加が継続を支える。行政は機会設計はできるが誇りそのものは共同体験から育つ。",
-      eval:"参加との因果を説明する。",
-      caution:"観光PRだけに置き換えない。"},
-
-  20:{skeleton:"循環→外貨獲得",
-      points:"地元店の売上が雇用・仕入れに回り所得が循環。観光消費で外貨獲得し、地元調達率を高めると両立できる。",
-      eval:"域外獲得と域内循環の双方を扱う。",
-      caution:"地域外取引を全否定しない。"},
-
-  21:{skeleton:"低リスク→育成→出口",
-      points:"短期・小区画で経験を積める。研修、顧客データ、資金相談、空き店舗マッチングで本出店へつなぐ。",
-      eval:"実験から独立までの流れを示す。",
-      caution:"場所を貸すだけで終わらせない。"},
-
-  22:{skeleton:"事例要素→成功条件",
-      points:"古民家改修、日替わり飲食、図書館、イベントで来訪理由を増やす。運営者、地域関係、複数収益源、企画継続が成功条件。",
-      eval:"空間・運営・収益を分析する。",
-      caution:"見た目の改修だけに注目しない。"},
-
-  23:{skeleton:"効果→リスク→管理",
-      points:"既存設備やDIYで初期投資を抑え早く開業できる。安全・衛生・耐久性・ブランド統一のリスクがあるため専門家確認が必要。",
-      eval:"費用対効果と品質管理を両立。",
-      caution:"安ければ良いと結論づけない。"},
-
-  24:{skeleton:"前提→収支→下振れ策",
-      points:"客数・客単価・営業日で売上を積み上げ、家賃・原価・人件費・返済を示す。下振れ時は固定費、商品構成、販路を段階的に見直す。",
-      eval:"数字の根拠と返済可能性を語る。",
-      caution:"希望的な売上目標だけにしない。"},
-
-  25:{skeleton:"二概念→プロセス",
-      points:"協働から新しい価値が生まれるのが価値創発。その価値を社会課題を解く仕組みへ発展させるのがソーシャルイノベーション。",
-      eval:"協働から社会変革への流れを示す。",
-      caution:"新奇なアイデアだけを革新としない。"},
-
-  26:{skeleton:"定義→具体例→学び方",
-      points:"実践知は状況に応じて望ましい行動を判断する力。多文化イベントでは信頼や時期を読めないと失敗する。実践と振り返りで磨く。",
-      eval:"理論と現場の往復を述べる。",
-      caution:"経験だけを重視して理論を軽視しない。"},
-
-  27:{skeleton:"リアル×デジタル→循環→包摂",
-      points:"多言語紹介、予約、回遊、地域ポイントを一体化。来店データを改善に使い収益を地元へ還元。紙案内や対面窓口も残す。",
-      eval:"デジタルが現地行動と地域所得につながる。",
-      caution:"アプリを作ること自体を目的にしない。"},
-
-  28:{skeleton:"課題→対象→施策→KPI",
-      points:"空き店舗を銘仙と多文化飲食の拠点にし、商工課・商店街・大学・外国人住民が運営。KPIは来訪者、回遊店舗数、再訪率、卒業出店数、地元調達率。",
-      eval:"実行主体・資金・指標まで一貫する。",
-      caution:"大規模施設の建設だけに頼らない。"},
-
-  29:{skeleton:"価値提案→顧客→収益→継続",
-      points:"銘仙柄空間で各国カレーと染織体験を提供。飲食・物販・体験料・棚貸しを収益源にし、月替わり出店と育成制度で継続性を持たせる。",
-      eval:"三つの資源が必然的に結び付く。",
-      caution:"要素を並べただけの企画にしない。"},
-
-  30:{skeleton:"仮説→基準値→比較→改善",
-      points:"開始前の通行量、空き店舗率、来訪属性を記録し、開始後の再訪率、売上、滞在時間と比較。類似地区比較やアンケートも使う。",
-      eval:"事前・事後と定量・定性を組み合わせる。",
-      caution:"数字が増えたことだけで因果を断定しない。"},
-
-  31:{skeleton:"傾聴→利害整理→試行→合意",
-      points:"反対理由を個別に聞き、騒音、費用、競合などを整理。小規模実証で影響確認し、公開データと対話で修正する。",
-      eval:"反対意見を改善材料として扱う。",
-      caution:"説得や多数決だけで押し切らない。"},
-
-  32:{skeleton:"問題意識→学び→行動→将来",
-      points:"伊勢崎の衰退を商業だけでなく多文化・経営・データの課題として捉える。大学で経営学とデータ分析を学び、調査と実証を重ね、地域事業や政策提言へ還元したい。",
-      eval:"経験・学び・将来像が一貫する。",
-      caution:"学校名を替えても通じる志望理由にしない。"},
-
-  33:{skeleton:"主張→根拠→安全表現",
-      points:"スパイスの食欲・発汗、具材の栄養は考えられるが個人差がある。バランスのよい食事の一案として伝え、体調不良時は医療相談を促す。",
-      eval:"根拠と限界を区別する。",
-      caution:"病気の予防・治療を保証しない。"},
-
-  34:{skeleton:"定義→文化価値→導入条件",
-      points:"アーユルヴェーダは伝統的な生命・健康観。体験導入時は文化背景、安全性、医療との境界、専門家監修に配慮。",
-      eval:"文化尊重と消費者保護を両立。",
-      caution:"伝統＝科学的効果としない。"},
-
-  35:{skeleton:"市場限界→公益→検証",
-      points:"空き店舗や景観は民間が投資しにくい外部効果があるため公的支援に意義。期限、自己負担、KPIを定め効果が乏しければ見直す。",
-      eval:"税金投入の根拠と説明責任。",
-      caution:"補助金の継続を目的化しない。"},
-
-  36:{skeleton:"意義→適合→リスク管理",
-      points:"国際観光は域外需要を取り込み、多文化性や銘仙を発信できる。混雑、文化の商品化、受入れ負担があるため小規模・滞在型で還元を重視。",
-      eval:"経済・社会文化・環境を多角的に扱う。",
-      caution:"外国人住民と観光客を混同しない。"},
-
-  37:{skeleton:"心理→制度→持続性",
-      points:"目的共有、役割明確化、成果可視化、公平な承認が参加意欲と信頼を高める。有給担当者、交代制、意思決定ルールで持続性を確保。",
-      eval:"心理と制度を結び付ける。",
-      caution:"精神論だけで協働を求めない。"},
-
-  38:{skeleton:"定義→強み→一歩→検証",
-      points:"地方創生は地域の強みを生かし自立的で持続可能な生活と仕事をつくること。銘仙・多文化・空き店舗を結ぶ小規模実証を行い、データで検証して政策化する。",
-      eval:"定義・具体策・国の課題が一貫する。",
-      caution:"イベント一回で地方創生が実現すると考えない。"
+prevBtn.onclick = () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderQuestion();
   }
 };
-// ===============================
-// ガイド表示
-// ===============================
-function showGuide(){
-  const q = QUESTIONS[idx];
-  const g = GUIDE[q.no];
-  const box = document.getElementById("guideBox");
-
-  if(!g){
-    box.innerHTML = "<p>この質問のガイドは未登録です。</p>";
-  }else{
-    box.innerHTML =
-      `<p><strong>① 結論の作り方：</strong><br>${g.c1}</p>`+
-      `<p><strong>② 理由の組み立て方：</strong><br>${g.c2}</p>`+
-      `<p><strong>③ 具体例の示し方：</strong><br>${g.c3}</p>`+
-      `<p><strong>④ 大学での学びにつなげる方法：</strong><br>${g.c4}</p>`+
-      `<p><strong>⑤ 評価ポイント：</strong><br>${g.c5}</p>`+
-      `<p><strong>⑥ 注意点：</strong><br>${g.c6}</p>`;
+nextBtn.onclick = () => {
+  if (currentIndex < filtered.length - 1) {
+    currentIndex++;
+    renderQuestion();
   }
+};
+filterField.onchange = applyFilter;
+filterLevel.onchange = applyFilter;
+searchText.oninput = applyFilter;
 
-  box.style.display = "block";
-}
-
-// ===============================
-// 質問の表示
-// ===============================
-function render(){
-  const q = QUESTIONS[idx];
-
-  document.getElementById("meta").textContent =
-    `No.${q.no}｜分野：${q.field}｜難度：${q.level}｜目安：${q.time}`;
-
-  document.getElementById("question").textContent = q.q;
-  document.getElementById("deepQuestion").textContent = "深掘り質問：" + q.deep;
-
-  document.getElementById("status").textContent =
-    "結論→理由→具体例→大学での学び の順で書いてみる";
-
-  document.getElementById("answerInput").value = "";
-  document.getElementById("guideBox").style.display = "none";
-}
-
-// ===============================
-// 次の質問へ
-// ===============================
-function next(){
-  idx = (idx + 1) % QUESTIONS.length;
-  render();
-}
-
-// ===============================
-// 初期表示
-// ===============================
-render();
+renderQuestion();
 </script>
-
 </body>
 </html>
